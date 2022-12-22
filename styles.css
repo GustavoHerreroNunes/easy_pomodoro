@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Mukta:wght@200;300;400;500;600;700;800&display=swap');
+
+:root{
+    --lightRed: #D10105;
+    --darkRed: #AB0003;
+    --lightGreen: #277D25;
+    --darkGreen: #20612D;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Mukta', sans-serif;
+}
+
+h1, h2, h3{
+    color: var(--lightRed);
+    font-weight: 700;
+}
+
+h1{
+    font-size: 3rem;
+}
+
+h2{
+    font-size: 2rem;
+}
+
+#popupContent{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    width: 500px;
+    height: 400px;
+    padding-top: 60px;
+    padding-bottom: 30px;
+    border: 2px var(--darkRed) solid;
+    text-align: center;
+}
+
+#extensionName{
+    background: var(--lightRed);
+    color: white;
+    padding: 10px;
+    border-radius: 0 0 15px 0;
+    display: inline-flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+#status{
+    display: none;    
+}
+
+#btnConfig{
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+#timerDisplay{
+    align-self: center;
+    display: flex;
+    align-items: center;
+    height: 200px;
+    width: 200px;
+    border: 2px var(--lightRed) solid;
+    border-radius: 100%;
+}
+#timerDisplay h2{
+    margin: auto
+}
+
+.buttonGroup{
+    display: flex;
+    justify-content: space-evenly;
+}
