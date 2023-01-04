@@ -54,12 +54,6 @@ h2{
     display: none;    
 }
 
-#btnConfig{
-    position: absolute;
-    top: 0;
-    right: 0;
-}
-
 #timerDisplay{
     align-self: center;
     display: flex;
@@ -68,12 +62,49 @@ h2{
     width: 200px;
     border: 2px var(--lightRed) solid;
     border-radius: 100%;
+    margin-bottom: 30px;
 }
 #timerDisplay h2{
-    margin: auto
+    margin: auto;
 }
 
 .buttonGroup{
     display: flex;
     justify-content: space-evenly;
+}
+
+button{
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 15px;
+    padding: 7px 14px 7px 14px;
+    font-size: 1.33rem;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.14s;
+}
+
+.btnGreen{
+    border-color: var(--lightGreen);
+    color: var(--lightGreen);
+}
+.btnGreen:hover{
+    border-color: var(--darkGreen);
+    color: var(--darkGreen);
+}
+
+.btnRed{
+    border-color: var(--lightRed);
+    color: var(--lightRed);
+}
+.btnRed:hover{
+    border-color: var(--darkRed);
+    color: var(--darkRed);
+}
+
+#btnConfig{
+    position: absolute;
+    top: 0;
+    right: 0;
 }
