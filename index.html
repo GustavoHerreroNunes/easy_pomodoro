@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="root.css">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="cycle.css">
     <title>Easy Pomodoro</title>
 </head>
 <body>
@@ -14,19 +16,30 @@
         </div>
         <h1>Pomodoro</h1>
         <button class="btnGreen" id="btnConfig" name="btnConfig">Configs</button>
-        <p id="status"></p>
-        <div id="timerDisplay">
+        <h2 id="status">Timer Pausado</h2>
+        <div class="container" id="timerDisplay">
             <h2>25:00</h2>
         </div>
-        <div class="buttonGroup" id="cicleButtons">
+        <div class="container buttonGroup" id="cicleButtons">
             <button class="btnGreen" id="btnStart">Iniciar</button>
             <button class="btnRed" id="btnJump">Pular</button>
         </div>
-        <!-- <div class="buttonGroup" id="timerButtons">
+        <div class="container buttonGroup" id="timerButtons">
             <button class="btnGreen" id="btnPlay"><img src="assets/play.png" alt="Play" width="30px" height="30px"></button>
-        </div> -->
-        <div class="cycleIndicator">
-            JS Hehe
+            <button class="btnGreen" id="btnPause"><img src="assets/pause.png" alt="Pause" width="30px" height="30px"></button>
+            <button class="btnGreen" id="btnCancel"><img src="assets/x2.png" alt="Cancel" width="30px" height="30px"></button>
+        </div>
+        <div class="container" id="cycleIndicator">
+            <h3>Ciclo 1</h3>
+            <div class="cycleTimer pomodoroCircle filled"></div>
+            <div class="cycleTimer shortBreakCircle filled"></div>
+            <div class="cycleTimer pomodoroCircle filled"></div>
+            <div class="cycleTimer shortBreakCircle"></div>
+            <div class="cycleTimer pomodoroCircle"></div>
+            <div class="cycleTimer shortBreakCircle"></div>
+            <div class="cycleTimer pomodoroCircle"></div>
+            <div class="cycleTimer longBreakCircle"></div>
+            <div id="currentTimerIndicator"></div>
         </div>
     </div>
 </body>
