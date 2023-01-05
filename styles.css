@@ -1,18 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Mukta:wght@200;300;400;500;600;700;800&display=swap');
-
-:root{
-    --lightRed: #D10105;
-    --darkRed: #AB0003;
-    --lightGreen: #277D25;
-    --darkGreen: #20612D;
-}
-
-*{
-    margin: 0;
-    padding: 0;
-    font-family: 'Mukta', sans-serif;
-}
-
 h1, h2, h3{
     color: var(--lightRed);
     font-weight: 700;
@@ -23,7 +8,7 @@ h1{
 }
 
 h2{
-    font-size: 2rem;
+    font-size: 1.77rem;
 }
 
 #popupContent{
@@ -32,11 +17,15 @@ h2{
     justify-content: space-between;
     position: relative;
     width: 500px;
-    height: 400px;
+    height: auto;
     padding-top: 60px;
     padding-bottom: 30px;
     border: 2px var(--darkRed) solid;
     text-align: center;
+}
+
+.container{
+    margin-top: 20px;
 }
 
 #extensionName{
@@ -51,7 +40,9 @@ h2{
 }
 
 #status{
-    display: none;    
+    /* display: none;     */
+    font-weight: 500;
+    color: var(--lightGreen);
 }
 
 #timerDisplay{
@@ -74,6 +65,8 @@ h2{
 }
 
 button{
+    display: flex;
+    justify-content: center;
     background-color: white;
     border: 2px solid black;
     border-radius: 15px;
@@ -101,6 +94,11 @@ button{
 .btnRed:hover{
     border-color: var(--darkRed);
     color: var(--darkRed);
+}
+
+#timerButtons button{
+    border-radius: 100%;
+    padding: 14px;
 }
 
 #btnConfig{
