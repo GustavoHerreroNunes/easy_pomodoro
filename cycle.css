@@ -1,16 +1,23 @@
 #cycleIndicator{
-    width: 200px;
+    width: 300px;
     align-self: center;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    border: 2px solid green;
+    flex-direction: column;
 }
 #cycleIndicator *{
     margin-top: 5px;
 }
+#cycleIndicator h3{
+    align-self: flex-start;
+}
 
-.cycleTimer{
+#cycleTimers{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+#cycleTimers div{
     border-width: 3px;
     border-style: solid;
     border-radius: 100%;

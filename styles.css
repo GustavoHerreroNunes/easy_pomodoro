@@ -11,6 +11,10 @@ h2{
     font-size: 1.77rem;
 }
 
+.hide{
+    display: none !important;
+}
+
 #popupContent{
     display: flex;
     flex-direction: column;
@@ -40,7 +44,6 @@ h2{
 }
 
 #status{
-    /* display: none;     */
     font-weight: 500;
     color: var(--lightGreen);
 }

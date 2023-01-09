@@ -24,21 +24,23 @@
             <button class="btnGreen" id="btnStart">Iniciar</button>
             <button class="btnRed" id="btnJump">Pular</button>
         </div>
-        <div class="container buttonGroup" id="timerButtons">
+        <div class="container buttonGroup hide" id="timerButtons">
             <button class="btnGreen" id="btnPlay"><img src="assets/play.png" alt="Play" width="30px" height="30px"></button>
             <button class="btnGreen" id="btnPause"><img src="assets/pause.png" alt="Pause" width="30px" height="30px"></button>
             <button class="btnGreen" id="btnCancel"><img src="assets/x2.png" alt="Cancel" width="30px" height="30px"></button>
         </div>
         <div class="container" id="cycleIndicator">
             <h3>Ciclo 1</h3>
-            <div class="cycleTimer pomodoroCircle filled"></div>
-            <div class="cycleTimer shortBreakCircle filled"></div>
-            <div class="cycleTimer pomodoroCircle filled"></div>
-            <div class="cycleTimer shortBreakCircle"></div>
-            <div class="cycleTimer pomodoroCircle"></div>
-            <div class="cycleTimer shortBreakCircle"></div>
-            <div class="cycleTimer pomodoroCircle"></div>
-            <div class="cycleTimer longBreakCircle"></div>
+            <div id="cycleTimers">
+                <div class="pomodoroCircle filled"></div>
+                <div class="shortBreakCircle filled"></div>
+                <div class="pomodoroCircle filled"></div>
+                <div class="shortBreakCircle"></div>
+                <div class="pomodoroCircle"></div>
+                <div class="shortBreakCircle"></div>
+                <div class="pomodoroCircle"></div>
+                <div class="longBreakCircle"></div>
+            </div>
             <div id="currentTimerIndicator"></div>
         </div>
     </div>
