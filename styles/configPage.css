@@ -1,0 +1,35 @@
+.container-flex{
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    padding-left: 25px;
+    padding-bottom: 10px;
+}
+
+input{
+    width: 2.3rem;
+    border: 1px solid black;
+    border-radius: 15px;
+    padding: 3.5px;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+#timers{
+    border-bottom: 2px solid var(--lightRed);
+}
+#timers input{
+    color: var(--lightRed);
+    border-color: var(--lightRed);
+}
+
+#cycles{
+    border-bottom: 2px solid var(--lightGreen);
+}
+#cycles h2{
+    color: var(--lightGreen);
+}
+#cycles input{
+    color: var(--lightGreen);
+    border-color: var(--lightGreen);
+}
