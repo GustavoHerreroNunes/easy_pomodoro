@@ -1,0 +1,15 @@
+{
+    "manifest_version": 3,
+    "name": "Easy Pomodoro",
+    "description": "Pomodoro timer extension, with customizable Pomodoro, Short and Long Break timers",
+    "version": "1.0",
+    "icons": {
+        "16": "assets/tomato.png",
+        "32": "assets/tomato.png",
+        "48": "assets/tomato.png",
+        "128": "assets/tomato.png"
+    },
+    "action": {
+        "default_popup": "config.html"
+    }
+}
