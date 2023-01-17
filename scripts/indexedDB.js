@@ -26,11 +26,11 @@ const onUpgradeNeeded = (event) => {
         {autoIncrement: databaseInfo.objectStore.autoIncrement}
     );
 
-    objectStore.createIndex("time", {unique: false});
-    objectStore.createIndex("frequency", {unique: false});
+    objectStore.createIndex("time", "time", {unique: false});
+    objectStore.createIndex("frequency", "frequency", {unique: false});
 
     objectStore.transaction.oncomplete = () => {
-        const timers = objectStore.transaction(databaseInfo.objectStore.name, "readwrite").objectStore(databaseInfo.objectStore.name);
+        const timers = db.transaction(databaseInfo.objectStore.name, "readwrite").objectStore(databaseInfo.objectStore.name);
 
         const timersRegistries = databaseInfo.objectStore.data;
 
@@ -67,3 +67,7 @@ const updateRegistry = (db, newRegistry, onSuccess) => {
         (onSuccess) && (onSuccess(event));
     }
 }
+
+const indexedDBController = { openDatabase, onUpgradeNeeded, getRegistries, updateRegistry };
+
+export default indexedDBController;
