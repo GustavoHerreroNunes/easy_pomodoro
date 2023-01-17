@@ -1,4 +1,5 @@
-import indexedDBController from "./indexedDB.js"
+import indexedDBController from "./indexedDB.js";
+import webStorage from "./webStorage.js";
 
 const initializeElements = () => {
     const timerForm = {
@@ -40,6 +41,9 @@ const showData = (db ,timerForm, cycleForm) => {
                     break;
             }
         });
+
+        const numberOfCycles = webStorage.getData("setting");
+        cycleForm.numberOfCycles.value = numberOfCycles;
     }
 
     indexedDBController.getRegistries(db, onGetSuccess);
@@ -50,11 +54,14 @@ const saveData = (db, timerForm, cycleForm) => {
         {name: "Pomodoro", time: timerForm.pomodoro.value, frequency: null},
         {name: "Pausa Curta", time: timerForm.shortBreak.value, frequency: cycleForm.shortBreakFrequency.value},
         {name: "Pausa Longa", time: timerForm.longBreak.value, frequency: cycleForm.longBreakFrequency.value}
-    ]
+    ];
+
+    const numberOfCycles = cycleForm.numberOfCycles.value;
 
     indexedDBController.updateRegistry(db, registries[0], () => {
         indexedDBController.updateRegistry(db, registries[1], () => {
             indexedDBController.updateRegistry(db, registries[2], () => {
+                webStorage.updateDate(numberOfCycles);
                 window.location = "./index.html";
             });
         });
