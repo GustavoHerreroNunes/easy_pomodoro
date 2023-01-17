@@ -45,6 +45,22 @@ const showData = (db ,timerForm, cycleForm) => {
     indexedDBController.getRegistries(db, onGetSuccess);
 }
 
+const saveData = (db, timerForm, cycleForm) => {
+    const registries = [
+        {name: "Pomodoro", time: timerForm.pomodoro.value, frequency: null},
+        {name: "Pausa Curta", time: timerForm.shortBreak.value, frequency: cycleForm.shortBreakFrequency.value},
+        {name: "Pausa Longa", time: timerForm.longBreak.value, frequency: cycleForm.longBreakFrequency.value}
+    ]
+
+    indexedDBController.updateRegistry(db, registries[0], () => {
+        indexedDBController.updateRegistry(db, registries[1], () => {
+            indexedDBController.updateRegistry(db, registries[2], () => {
+                window.location = "./index.html";
+            });
+        });
+    });
+}
+
 window.onload = () => {
     const { timerForm, cycleForm, cycleButtons } = initializeElements();
 
@@ -61,8 +77,11 @@ window.onload = () => {
         console.log("Database on!");
 
         const db = event.target.result;
-
         console.log(db);
+
+        cycleButtons.btnSave.addEventListener("click", () => {
+            saveData(db, timerForm, cycleForm);
+        })
 
         showData(db, timerForm, cycleForm);
     }
