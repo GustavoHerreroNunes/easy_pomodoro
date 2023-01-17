@@ -21,15 +21,15 @@
             <div class="container-flex">
                 <label for="txbPomodoroTime">
                     Pomodoro 
-                    <input type="text" name="txbPomodoroTime" id="txbPomodoroTime" value="25:00">
+                    <input type="text" name="txbPomodoroTime" id="txbPomodoroTime" value="00:00">
                 </label>
                 <label for="txbShortBreakTime">
                     Pausa Curta 
-                    <input type="text" name="txbShortBreakTime" id="txbShortBreakTime" value="5:00">
+                    <input type="text" name="txbShortBreakTime" id="txbShortBreakTime" value="00:00">
                 </label>
                 <label for="txbLongBreakTime">
                     Pausa Longa 
-                    <input type="text" name="txbLongBreakTime" id="txbLongBreakTime" value="15:00">
+                    <input type="text" name="txbLongBreakTime" id="txbLongBreakTime" value="00:00">
                 </label>
             </div>
         </div>
@@ -38,16 +38,16 @@
             <div class="container-flex">
                 <label for="txbNumberOfCycles">
                     Número de Ciclos 
-                    <input type="number" name="txbNumberOfCycles" id="txbNumberOfCycles" value=20>
+                    <input type="number" name="txbNumberOfCycles" id="txbNumberOfCycles" value=0>
                 </label>
                 <label for="txbShortBreakFrequency">
                     Pausa curta a cada 
-                    <input type="number" name="txbShortBreakFrequency" id="txbShortBreakFrequency" value=1>
+                    <input type="number" name="txbShortBreakFrequency" id="txbShortBreakFrequency" value=0>
                      pomodoro(s)
                 </label>
-                <label for="txbLongBreakTimeFrequency">
+                <label for="txbLongBreakFrequency">
                     Pausa Longa a cada 
-                    <input type="number" name="txbLongBreakTimeFrequency" id="txbLongBreakTimeFrequency" value=4>
+                    <input type="number" name="txbLongBreakFrequency" id="txbLongBreakFrequency" value=0>
                      pomodoro(s)
                 </label>
             </div>
@@ -57,5 +57,8 @@
             <button class="btnRed" id="btnCancel">Cancelar</button>
         </div>
     </div>
+
+    <!-- <script type="module" src="scripts/indexedDB.js"></script> -->
+    <script type="module" src="scripts/configPage.js"></script>
 </body>
 </html>
