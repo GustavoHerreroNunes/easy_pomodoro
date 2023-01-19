@@ -1,27 +1,44 @@
 const defineStorage = () => {
-    if(!localStorage.easyPomodoroNumberOfCycles){
-        localStorage.easyPomodoroNumberOfCycles = 5;
+    if(!localStorage.numberOfCycles){
+        localStorage.numberOfCycles = 5;
     }
-    if(!sessionStorage.easyPomodoroCurrentCycle || !sessionStorage.easyPomodoroCurrentTimer){
-        sessionStorage.easyPomodoroCurrentCycle = 1;
-        sessionStorage.easyPomodoroCurrentTimer = 1;
-    }
-}
-
-const getData = (dataType) => {
-    return (dataType === "setting") ? localStorage.easyPomodoroNumberOfCycles :
-           (dataType === "session") && { currentCycle: sessionStorage.easyPomodoroCurrentCycle, currentTimer: sessionStorage.easyPomodoroCurrentTimer }
-}
-
-const updateDate = (numberOfCycles, currentCycle, currentTimer) => {
-    if(numberOfCycles)
-        localStorage.easyPomodoroNumberOfCycles = numberOfCycles;
-    if(currentCycle && currentTimer){
-        sessionStorage.easyPomodoroCurrentCycle = currentCycle;
-        sessionStorage.easyPomodoroCurrentTimer = currentTimer;
+    if(!sessionStorage.currentCycle || !sessionStorage.currentTimer || !sessionStorage.pomodorosPlayed){
+        sessionStorage.currentCycle = 1;
+        sessionStorage.currentTimer = "Pomodoro";
+        sessionStorage.pomodorosPlayed = 0;
     }
 }
 
-const webStorage = { defineStorage, getData, updateDate };
+const getDada = (dadaType) => {
+    return (dadaType === "setting") ? localStorage.numberOfCycles :
+           (dadaType === "session") && {
+             currentCycle: sessionStorage.currentCycle, 
+             currentTimer: sessionStorage.currentTimer,
+             pomodorosPlayed: sessionStorage.pomodorosPlayed
+            }
+}
+
+const setNumberOfCycles = (numberOfCycles) => {
+    localStorage.numberOfCycles = numberOfCycles;
+}
+
+const setCurrentTimer = (currentTimer) => {
+    sessionStorage.currentTimer = currentTimer;
+}
+
+const setCurrentCycle = (currentCycle) => {
+    sessionStorage.currentCycle = currentCycle;
+}
+
+const setPomodorosPlayed = (pomodorosPlayed) => {
+    sessionStorage.pomodorosPlayed = pomodorosPlayed;
+}
+
+const webStorage = { defineStorage,
+                    getDada, 
+                    setNumberOfCycles, 
+                    setCurrentTimer, 
+                    setCurrentCycle, 
+                    setPomodorosPlayed };
 
 export default webStorage;
