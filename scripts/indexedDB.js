@@ -13,8 +13,24 @@ const databaseInfo = {
     },
 }
 
-const openDatabase = () => {
-    return indexedDB.open(databaseInfo.name, databaseInfo.version);
+const openDatabase = (onSuccess) => {
+    const openRequest = indexedDB.open(databaseInfo.name, databaseInfo.version);
+
+    openRequest.onupgradeneeded = indexedDBController.onUpgradeNeeded;
+
+    openRequest.onerror = (event) => {
+        const error = event.target.error;
+        console.log(`Error occured when initializating the database: ${error}`);
+    }
+
+    openRequest.onsuccess = (event) => {
+        const db = event.target.result;
+
+        console.log("Database opened");
+        console.log(db);
+
+        onSuccess(db);
+    };
 }
 
 const onUpgradeNeeded = (event) => {
@@ -42,7 +58,7 @@ const onUpgradeNeeded = (event) => {
     }
 }
 
-const getRegistries = (db, onSuccess) => {
+const getAllRegistries = (db, onSuccess) => {
     const objectStore = db.transaction(databaseInfo.objectStore.name, "readonly").objectStore(databaseInfo.objectStore.name);
     
     const getRequest = objectStore.getAll();
@@ -52,7 +68,21 @@ const getRegistries = (db, onSuccess) => {
 
         console.log(registries);
 
-        (onSuccess) && (onSuccess(event));
+        (onSuccess) && (onSuccess(registries));
+    }
+}
+
+const getRegistry = (db, name, onSuccess) => {
+    const objectStore = db.transaction(databaseInfo.objectStore.name, "readonly").objectStore(databaseInfo.objectStore.name);
+    
+    const getRequest = objectStore.get(name);
+
+    getRequest.onsuccess = (event) => {
+        const registry = event.target.result;
+
+        console.log(registry);
+
+        (onSuccess) && (onSuccess(registry));
     }
 }
 
@@ -68,6 +98,6 @@ const updateRegistry = (db, newRegistry, onSuccess) => {
     }
 }
 
-const indexedDBController = { openDatabase, onUpgradeNeeded, getRegistries, updateRegistry };
+const indexedDBController = { openDatabase, onUpgradeNeeded, getAllRegistries, getRegistry, updateRegistry };
 
 export default indexedDBController;
