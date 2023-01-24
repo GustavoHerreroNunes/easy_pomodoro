@@ -23,8 +23,7 @@ const initializeElements = () => {
 }
 
 const showData = (db ,timerForm, cycleForm) => {
-    const onGetSuccess = (event) => {
-        const registries = event.target.result;
+    const onGetSuccess = (registries) => {
         
         registries.forEach((registry) => {
             switch(registry.name){
@@ -42,11 +41,11 @@ const showData = (db ,timerForm, cycleForm) => {
             }
         });
 
-        const numberOfCycles = webStorage.getData("setting");
+        const numberOfCycles = webStorage.getNumberOfCycles();
         cycleForm.numberOfCycles.value = numberOfCycles;
     }
 
-    indexedDBController.getRegistries(db, onGetSuccess);
+    indexedDBController.getAllRegistries(db, onGetSuccess);
 }
 
 const saveData = (db, timerForm, cycleForm) => {
@@ -61,7 +60,7 @@ const saveData = (db, timerForm, cycleForm) => {
     indexedDBController.updateRegistry(db, registries[0], () => {
         indexedDBController.updateRegistry(db, registries[1], () => {
             indexedDBController.updateRegistry(db, registries[2], () => {
-                webStorage.updateDate(numberOfCycles);
+                webStorage.setNumberOfCycles(numberOfCycles);
                 window.location = "./index.html";
             });
         });
@@ -71,26 +70,14 @@ const saveData = (db, timerForm, cycleForm) => {
 window.onload = () => {
     const { timerForm, cycleForm, cycleButtons } = initializeElements();
 
-    const openRequest = indexedDBController.openDatabase();
-
-    openRequest.onupgradeneeded = indexedDBController.onUpgradeNeeded;
-
-    openRequest.onerror = (event) => {
-        const error = event.target.error;
-        console.log(`Error occured when initializating the database: ${error}`);
-    }
-
-    openRequest.onsuccess = (event) => {
-        console.log("Database on!");
-
-        const db = event.target.result;
-        console.log(db);
+    const onSuccessToOpenDatabase = (db) => {
 
         cycleButtons.btnSave.addEventListener("click", () => {
             saveData(db, timerForm, cycleForm);
         })
-
+        
         showData(db, timerForm, cycleForm);
     }
     
+    indexedDBController.openDatabase(onSuccessToOpenDatabase);
 }
