@@ -1,29 +1,33 @@
-const timerData = {
-    currentTimerNumber: 0,
-    name: "easyPomodoroTimer",
-    delayInMinutes: 0,
-    startTime: 0,
-    endTime: 0
+const TIMER_NAME = "easyPomodoroTimer";
+
+const initializeTimer = (delayInMinutes) => {
+    console.log("Inicializando Timer");
+
+    chrome.alarms.create(TIMER_NAME, {delayInMinutes: delayInMinutes});
 }
 
-const initializeTimer = () => {
-    timerData.delayInMinutes = 0.2,
-    timerData.startTime = Date.now();
-
-    chrome.alarms.create(timerData.name, {delayInMinutes: timerData.delayInMinutes});
+const stopTimer = () => {
+    chrome.alarms.clear(TIMER_NAME);
 }
 
-const getEndTime = () => {
-    chrome.alarms.get(timerData.name, (alarm) => {
-        timerData.endTime = alarm.scheduledTime;
+const getEndTime = (onSuccess) => {
+    chrome.alarms.get(TIMER_NAME, (alarm) => {
+        const endTime = alarm.scheduledTime;
         console.log("End Time gotten");
+        onSuccess(endTime);
     });
 }
 
-const getCurrentDelayTime = () => {
-    return timerData.endTime - timerData.startTime;
+const getCurrentDelayTime = (onSuccess) => {
+    getEndTime((endTime) => {
+        const currentTime = Date.now();
+        const delayTime = endTime - currentTime
+        console.log(`Delay Time: ${delayTime}`);
+
+        onSuccess(delayTime);
+    });
 }
 
-const timer = { initializeTimer, getEndTime, getCurrentDelayTime };
+const timer = { initializeTimer, stopTimer, getEndTime, getCurrentDelayTime };
 
 export default timer;
