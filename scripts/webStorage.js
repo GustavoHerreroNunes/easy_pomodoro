@@ -1,16 +1,23 @@
 const defineStorage = () => {
-    if(!localStorage.numberOfCycles){
-        localStorage.numberOfCycles = 5;
-    }
-    if(!sessionStorage.currentCycle || !sessionStorage.currentTimer || 
-    !sessionStorage.pomodorosPlayed || !sessionStorage.timerStatus || 
-    !sessionStorage.delayTime){
-        sessionStorage.currentCycle = 1;
-        sessionStorage.currentTimer = "Pomodoro";
-        sessionStorage.pomodorosPlayed = 0;
-        sessionStorage.timerStatus = "Não iniciado";
-        sessionStorage.delayTime = 0;
-    }
+    if(!localStorage.numberOfCycles)localStorage.numberOfCycles = 5;
+
+    if(!localStorage.cycleStructure) 
+        localStorage.cycleStructure = ["Pomodoro",
+                                        "Pausa Curta",
+                                        "Pomodoro",
+                                        "Pausa Curta",
+                                        "Pomodoro",
+                                        "Pausa Longa"];
+    
+    if(!localStorage.currentCycle) localStorage.currentCycle = 1;
+
+    if(!localStorage.currentTimerIndex) localStorage.currentTimerIndex = 0;
+
+    if(!localStorage.currentTimerName) localStorage.currentTimerName = "Pomodoro";
+
+    if(!localStorage.timerStatus) localStorage.timerStatus = "Não iniciado";
+
+    if(!localStorage.delayTime) localStorage.delayTime = 0;
 }
 
 const getNumberOfCycles = () => {
@@ -21,58 +28,78 @@ const setNumberOfCycles = (numberOfCycles) => {
     localStorage.numberOfCycles = numberOfCycles;
 }
 
-const getCurrentTimer = () => {
-    return sessionStorage.currentTimer;
+const getCycleStructure = () => {
+    const cycleStructureArr = localStorage.cycleStructure.split(",");
+    return cycleStructureArr;
 }
 
-const setCurrentTimer = (currentTimer) => {
-    sessionStorage.currentTimer = currentTimer;
+const setCycleStructure = (cycleStructure) => {
+    localStorage.cycleStructure = cycleStructure;
+}
+
+const getCurrentTimerIndex = () => {
+    return localStorage.currentTimerIndex;
+}
+
+const setCurrentTimerIndex = (currentTimerIndex) => {
+    localStorage.currentTimerIndex = currentTimerIndex;
+}
+
+const getCurrentTimerName = () => {
+    return localStorage.currentTimerName;
+}
+
+const setCurrentTimerName = (currentTimerName) => {
+    localStorage.currentTimerName = currentTimerName;
 }
 
 const getCurrentCycle = () => {
-    return sessionStorage.currentCycle;
+    return localStorage.currentCycle;
 }
 
 const setCurrentCycle = (currentCycle) => {
-    sessionStorage.currentCycle = currentCycle;
-}
-
-const getPomodorosPlayed = () => {
-    return sessionStorage.pomodorosPlayed;
-}
-
-const setPomodorosPlayed = (pomodorosPlayed) => {
-    sessionStorage.pomodorosPlayed = pomodorosPlayed;
+    localStorage.currentCycle = currentCycle;
 }
 
 const getTimerStatus = () => {
-    return sessionStorage.timerStatus;
+    return localStorage.timerStatus;
 }
 
 const setTimerStatus = (timerStatus) => {
-    sessionStorage.timerStatus = timerStatus;
+    localStorage.timerStatus = timerStatus;
 }
 
 const getDelayTime = () => {
-    return sessionStorage.delayTime;
+    return localStorage.delayTime;
 }
 
 const setDelayTime = (delayTime) => {
-    sessionStorage.delayTime = delayTime;
+    localStorage.delayTime = delayTime;
+}
+
+const resetCurrentSessionData = () => {
+    localStorage.currentCycle = 1;
+    localStorage.currentTimerIndex = "Pomodoro";
+    localStorage.pomodorosPlayed = 0;
+    localStorage.timerStatus = "Não iniciado";
+    localStorage.delayTime = 0;
 }
 
 const webStorage = { defineStorage, 
                     getNumberOfCycles, 
                     setNumberOfCycles, 
-                    getCurrentTimer, 
-                    setCurrentTimer, 
+                    getCycleStructure, 
+                    setCycleStructure, 
+                    getCurrentTimerIndex, 
+                    setCurrentTimerIndex, 
+                    getCurrentTimerName, 
+                    setCurrentTimerName,
                     getCurrentCycle, 
                     setCurrentCycle, 
                     getTimerStatus, 
                     setTimerStatus, 
-                    getPomodorosPlayed,
-                    setPomodorosPlayed,
                     getDelayTime,
-                    setDelayTime };
+                    setDelayTime,
+                    resetCurrentSessionData };
 
 export default webStorage;
