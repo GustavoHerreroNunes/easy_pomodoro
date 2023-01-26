@@ -26,9 +26,6 @@ const openDatabase = (onSuccess) => {
     openRequest.onsuccess = (event) => {
         const db = event.target.result;
 
-        console.log("Database opened");
-        console.log(db);
-
         onSuccess(db);
     };
 }
@@ -53,8 +50,6 @@ const onUpgradeNeeded = (event) => {
         timersRegistries.forEach((registry) => {
             timers.add(registry);
         });
-
-        console.log("Object Store Created");
     }
 }
 
@@ -65,8 +60,6 @@ const getAllRegistries = (db, onSuccess) => {
 
     getRequest.onsuccess = (event) => {
         const registries = event.target.result;
-
-        console.log(registries);
 
         (onSuccess) && (onSuccess(registries));
     }
@@ -80,8 +73,6 @@ const getRegistry = (db, name, onSuccess) => {
     getRequest.onsuccess = (event) => {
         const registry = event.target.result;
 
-        console.log(registry);
-
         (onSuccess) && (onSuccess(registry));
     }
 }
@@ -92,7 +83,6 @@ const updateRegistry = (db, newRegistry, onSuccess) => {
     const updateRequest = objectStore.put(newRegistry);
 
     updateRequest.onsuccess = (event) => {
-        console.log(`Registry "${newRegistry.name}" updated`);
 
         (onSuccess) && (onSuccess(event));
     }
