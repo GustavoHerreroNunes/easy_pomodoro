@@ -5,11 +5,15 @@ const showTimermNotification = () => {
         message: "Ding Ding Ding!",
         title: "Alarme Tocando",
         type: "basic",
-        buttons: [{title: "Valeu Aí"}, {title: "Não enche!"}],
+        buttons: [{title: "Desligar"}, {title: "Iniciar Próximo Timer"}],
         requireInteraction: true
     })
 }
 
 chrome.alarms.onAlarm.addListener((alarm) => {
-    showTimermNotification();
+    (async () => {
+        const response = await chrome.runtime.sendMessage({onAlarm: true});
+        showTimermNotification();
+        console.log(response);
+      })();
 });
