@@ -10,10 +10,23 @@ const showTimermNotification = () => {
     })
 }
 
-chrome.alarms.onAlarm.addListener((alarm) => {
-    (async () => {
-        const response = await chrome.runtime.sendMessage({onAlarm: true});
-        showTimermNotification();
-        console.log(response);
-      })();
+let alarmStatus = "NOT PLAYED";
+
+chrome.alarms.onAlarm.addListener(async () => {
+    alarmStatus = "PLAYED";
+    showTimermNotification();
+    try{
+        await chrome.runtime.sendMessage({onAlarm: true});
+        alarmStatus = "NOT PLAYED";
+    }catch(error){
+        console.error(`${error} - Popup was close when trying to make contact`);
+    }      
 });
+
+chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
+        if(request.message === "alarmStatus"){
+            sendResponse({alarmStatus: alarmStatus});
+            alarmStatus = "NOT PLAYED";
+        }
+    }
+)

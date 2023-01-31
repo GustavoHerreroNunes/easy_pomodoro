@@ -161,6 +161,16 @@ const nextTimer = (db, timerName, timerDisplay, timerStatus, cycleButtons, timer
     }
 }
 
+const requestAlarmStatus = async (db, timerName, timerDisplay, timerStatus, cycleButtons, timerButtons) => {
+    const response = await chrome.runtime.sendMessage({message: "alarmStatus"});
+    if(response.alarmStatus === "PLAYED"){
+        nextTimer(db, timerName, timerDisplay, timerStatus, cycleButtons, timerButtons);
+    }
+    else{
+        initializePopUpInterface(db, timerName, timerDisplay, timerStatus, cycleButtons, timerButtons);
+    }
+}
+
 window.onload = () => {
     const { timerName,
             timerStatus, 
@@ -174,7 +184,7 @@ window.onload = () => {
     webStorage.defineStorage();
 
     indexedDBController.openDatabase((db) => {
-        initializePopUpInterface(db, timerName, timerDisplay, timerStatus, cycleButtons, timerButtons);
+        requestAlarmStatus(db, timerName, timerDisplay, timerStatus, cycleButtons, timerButtons);
 
         indexedDBController.getAllRegistries(db, (timers) => {
             const frequencies = {
