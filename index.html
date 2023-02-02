@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles/root.css">
-    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/pages/main.css">
     <link rel="stylesheet" href="styles/cycle.css">
     <title>Easy Pomodoro</title>
 </head>
@@ -32,18 +32,9 @@
             <button class="btnGreen" id="btnCancel"><img src="assets/x2.png" alt="Cancel" width="30px" height="30px"></button>
         </div>
         <div class="container" id="cycleIndicator">
-            <h3>Ciclo 1</h3>
+            <h3>Ciclo <span id="cycleNumber">1</span></h3>
             <div id="cycleTimers">
-                <div class="pomodoroCircle filled"></div>
-                <div class="shortBreakCircle filled"></div>
-                <div class="pomodoroCircle filled"></div>
-                <div class="shortBreakCircle"></div>
-                <div class="pomodoroCircle"></div>
-                <div class="shortBreakCircle"></div>
-                <div class="pomodoroCircle"></div>
-                <div class="longBreakCircle"></div>
             </div>
-            <div id="currentTimerIndicator"></div>
         </div>
     </div>
 

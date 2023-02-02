@@ -79,7 +79,8 @@ const setDelayTime = (delayTime) => {
 
 const resetCurrentSessionData = () => {
     localStorage.currentCycle = 1;
-    localStorage.currentTimerIndex = "Pomodoro";
+    localStorage.currentTimerIndex = 0;
+    localStorage.currentTimerName = "Pomodoro";
     localStorage.pomodorosPlayed = 0;
     localStorage.timerStatus = "Não iniciado";
     localStorage.delayTime = 0;

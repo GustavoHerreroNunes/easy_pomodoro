@@ -21,7 +21,7 @@ const setNextTimer = () => {
         webStorage.setCurrentTimerName("Pomodoro");
         const currentCycle = parseInt(webStorage.getCurrentCycle());
         const numberOfCycles = parseInt(webStorage.getNumberOfCycles());
-        if(currentCycle + 1 >= numberOfCycles)
+        if(currentCycle >= numberOfCycles)
             return false;
         else
             webStorage.setCurrentCycle(currentCycle + 1);
