@@ -1,11 +1,13 @@
+:root {
+    --currentTimerIndicatorHeight: 1rem;
+    --currentTimerIndicatorBorderX: calc(1rem/2/0.866);
+}
+
 #cycleIndicator{
     width: 300px;
     align-self: center;
     display: flex;
     flex-direction: column;
-}
-#cycleIndicator *{
-    margin-top: 5px;
 }
 #cycleIndicator h3{
     align-self: flex-start;
@@ -14,13 +16,15 @@
 #cycleTimers{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    flex-wrap: wrap;
     align-items: center;
 }
-#cycleTimers div{
+#cycleTimers>div{
     border-width: 3px;
     border-style: solid;
     border-radius: 100%;
+    margin-right: 10px;
+    margin-bottom: calc(var(--currentTimerIndicatorHeight) + 4px);
 }
 
 .pomodoroCircle{
@@ -44,6 +48,7 @@
 .longBreakCircle{
     width: 1.6rem;
     height: 1.6rem;
+    margin-right: 0 !important;
     border-color: var(--lightGreen);
 }
 .longBreakCircle.filled{
@@ -53,7 +58,10 @@
 #currentTimerIndicator{
     width: 0;
     height: 0;
-    border-left: calc(1rem/2/0.866) solid white;
-    border-right: calc(1rem/2/0.866) solid white;
-    border-bottom: 1rem solid black;
+    border-left: var(--currentTimerIndicatorBorderX) solid white;
+    border-right: var(--currentTimerIndicatorBorderX) solid white;
+    border-bottom: var(--currentTimerIndicatorHeight) solid black;
+    margin-inline: auto;
+    position: relative;
+    top: calc(100% + 6px);
 }

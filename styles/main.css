@@ -4,11 +4,15 @@ h1, h2, h3{
 }
 
 h1{
-    font-size: 3rem;
+    font-size: 2.7rem;
 }
 
 h2{
-    font-size: 1.77rem;
+    font-size: 1.55rem;
+}
+
+a{
+    text-decoration: none;
 }
 
 .hide{
@@ -22,9 +26,9 @@ h2{
     position: relative;
     width: 500px;
     height: auto;
-    padding-top: 60px;
+    padding-top: 25px;
     padding-bottom: 30px;
-    border: 2px var(--darkRed) solid;
+    border: 3px var(--darkRed) solid;
     text-align: center;
 }
 
@@ -52,11 +56,11 @@ h2{
     align-self: center;
     display: flex;
     align-items: center;
-    height: 200px;
-    width: 200px;
+    height: 190px;
+    width: 190px;
     border: 2px var(--lightRed) solid;
     border-radius: 100%;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 }
 #timerDisplay h2{
     margin: auto;
