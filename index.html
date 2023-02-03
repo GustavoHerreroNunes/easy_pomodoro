@@ -16,7 +16,10 @@
         </div>
         <h1>Pomodoro</h1>
         <a href="./config.html">
-            <button class="btnGreen" id="btnConfig" name="btnConfig">Configs</button>
+            <button class="btnIcon" id="btnConfig" name="btnConfig">
+                <img src="./assets/setting.png" alt="Botão de Configurações - Ícone de engrenagem" width="40px">
+                <img src="./assets/setting2.png" alt="Botão de Configurações - Ícone de engrenagem" width="40px">
+            </button>
         </a>
         <h2 id="status">Timer Pausado</h2>
         <div class="container" id="timerDisplay">
@@ -27,12 +30,28 @@
             <button class="btnRed" id="btnJump">Pular</button>
         </div>
         <div class="container buttonGroup hide" id="timerButtons">
-            <button class="btnGreen" id="btnPlay"><img src="assets/play.png" alt="Play" width="30px" height="30px"></button>
-            <button class="btnGreen" id="btnPause"><img src="assets/pause.png" alt="Pause" width="30px" height="30px"></button>
-            <button class="btnGreen" id="btnCancel"><img src="assets/x2.png" alt="Cancel" width="30px" height="30px"></button>
+            <button class="btnIcon" id="btnPlay">
+                <img src="assets/play.png" alt="Play" width="30px" height="30px">
+                <img src="assets/play2.png" alt="Play" width="30px" height="30px">
+            </button>
+            <button class="btnIcon" id="btnPause">
+                <img src="assets/pause.png" alt="Pause" width="30px" height="30px">
+                <img src="assets/pause2.png" alt="Pause" width="30px" height="30px">
+            </button>
+            <button class="btnIcon" id="btnCancel">
+                <img src="assets/x.png" alt="Cancel" width="30px" height="30px">
+                <img src="assets/x2.png" alt="Cancel" width="30px" height="30px">
+            </button>
         </div>
         <div class="container" id="cycleIndicator">
-            <h3>Ciclo <span id="cycleNumber">1</span></h3>
+            <header>
+                <h3>Ciclo <span id="cycleNumber">1</span></h3>
+                <button class="btnIcon btnGreen" id="btnResetCycles">
+                    Reiniciar
+                    <img src="./assets/reset.png" alt="Ícone de uma seta circular" width="16" height="16">
+                    <img src="./assets/reset2.png" alt="Ícone de uma seta circular" width="16" height="16">
+                </button>
+            </header>
             <div id="cycleTimers">
             </div>
         </div>

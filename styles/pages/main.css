@@ -85,6 +85,27 @@ button{
     transition: 0.14s;
 }
 
+.btnIcon{
+    border-width: 0;
+    font-size: 1rem;
+}
+.btnIcon>*{
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.btnIcon>img:last-child{
+    display: none;
+}
+.btnIcon>img:first-child{
+    display: block;
+}
+.btnIcon:hover>img:first-child{
+    display: none;
+}
+.btnIcon:hover>img:last-child{
+    display: block;
+}
+
 .btnGreen{
     border-color: var(--lightGreen);
     color: var(--lightGreen);

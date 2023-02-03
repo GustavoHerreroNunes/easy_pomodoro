@@ -4,13 +4,15 @@
 }
 
 #cycleIndicator{
+    margin-top: 20px;
     width: 300px;
     align-self: center;
     display: flex;
     flex-direction: column;
 }
-#cycleIndicator h3{
-    align-self: flex-start;
+#cycleIndicator header{
+    display: flex;
+    justify-content: space-between;
 }
 
 #cycleTimers{
