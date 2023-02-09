@@ -1,9 +1,10 @@
 import webStorage from "./webStorage.js";
 import indexedDBController from "./indexedDB.js";
+import timeConverter from "./modules/timeConverter.js";
 import timer from "./timer.js";
 import cycle from "./cycle.js";
 
-const initializeElements = () => {
+const getHTMLElements = () => {
     const timerName = document.querySelector("h1");
     const timerStatus = document.querySelector("#status");
     const timerDisplay = document.querySelector("#timerDisplay").querySelector("h2");
@@ -29,11 +30,18 @@ const initializeElements = () => {
     return { timerName, timerStatus, timerDisplay, cycleButtons, timerButtons, cycleIndicator }
 }
 
-const changeStatus = (timerStatus, cycleButtons, timerButtons, cycleIndicator) => {
-    const newStatus = webStorage.getTimerStatus();
+const updatePopupInterface = () => {
+    const { timerName,
+        timerStatus, 
+        timerDisplay, 
+        cycleButtons, 
+        timerButtons, 
+        cycleIndicator } = getHTMLElements();
 
-    timerStatus.innerHTML = newStatus;
-    switch(newStatus){
+    const currentStatus = webStorage.getTimerStatus();
+    timerStatus.innerHTML = currentStatus;
+
+    switch(currentStatus){
         case "Iniciado":
             cycleButtons.container.classList.add("hide");
             timerButtons.container.classList.remove("hide");
@@ -51,73 +59,47 @@ const changeStatus = (timerStatus, cycleButtons, timerButtons, cycleIndicator) =
             timerButtons.container.classList.add("hide");
             cycleIndicator.container.classList.remove("hide");
             break;
+        default:
+            console.log(`Status não reconhecido - ${currentStatus}`);
+            break;
     }
 }
 
-const secondsToMinutes = (seconds) =>{
-    return (seconds/60);
-}
-
-const millisToSeconds = (millis) =>{
-    return Math.floor(millis/1000);
-}
-
-const millisToMinutesAndSeconds = (millis) => {
-    var minutes = new Date(millis).getMinutes();
-    var seconds = new Date(millis).getSeconds();
-    return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
-}
-
-const minutesAndSecondsToMinute = (minutesAndSeconds) => {
-    const [ strMinutes, strSeconds ] = minutesAndSeconds.split(":");
-    const numberSeconds = parseInt(strSeconds);
-    let numberMinutes = parseInt(strMinutes);
-
-    numberMinutes += secondsToMinutes(numberSeconds);
-
-    return numberMinutes;
-}
-
-const setTimerDisplay = (timerDisplay, newTime) => {
-    timerDisplay.innerHTML = newTime;
-}
-
+//TIMER NAME GOTTEN
 const initializeTimerDisplay = (db, timerDisplay) => {
     const currentTimer = webStorage.getCurrentTimerName();
-    console.log(currentTimer);
     indexedDBController.getRegistry(db, currentTimer, (registry) => {
         const time = registry.time;
-        setTimerDisplay(timerDisplay, time);
+        timerDisplay.innerHTML = time;
     });
 }
 
-const initializePopUpInterface = (db, timerName, timerDisplay, timerStatus, cycleButtons, timerButtons, cycleIndicator) => {
+const initializePopUpInterface = (db, timerName, timerDisplay) => {
     initializeTimerDisplay(db, timerDisplay);
-    changeStatus(timerStatus, cycleButtons, timerButtons, cycleIndicator);
+    updatePopupInterface();
     const timerNewName =  webStorage.getCurrentTimerName();
-    console.log(`[timerNewName] - ${timerNewName}`);
     timerName.innerHTML = timerNewName;
 }
 
 const updateTimerDisplay = (timerDisplay) => {
     return setInterval( () => {
         timer.getCurrentDelayTime((delayTime) => {
-        setTimerDisplay(timerDisplay, millisToMinutesAndSeconds(delayTime))
-    },
-    1000);
-});
+            const newTime = timeConverter.millisToMinutesAndSeconds(delayTime);
+            timerDisplay.innerHTML = newTime;
+        }, 1000);
+    });
 }
 
-const startTimer = (db, timerStatus, timerDisplay, cycleButtons, timerButtons, cycleIndicator) => {
+const startTimer = (db, timerDisplay) => {
     const currentTimer = webStorage.getCurrentTimerName();
     
     indexedDBController.getRegistry(db, currentTimer, (timerRegistry) => {
         const delayInMinutes = timerRegistry.time;
 
-        timer.initializeTimer(minutesAndSecondsToMinute(delayInMinutes));
+        timer.initializeTimer(timeConverter.minutesAndSecondsToMinutes(delayInMinutes));
     
         webStorage.setTimerStatus("Iniciado");   
-        changeStatus(timerStatus, cycleButtons, timerButtons, cycleIndicator);
+        updatePopupInterface();
     });
     
     const intervelId = updateTimerDisplay(timerDisplay);
@@ -125,63 +107,62 @@ const startTimer = (db, timerStatus, timerDisplay, cycleButtons, timerButtons, c
     return intervelId;
 }
 
-const pauseTimer = (intervalId, timerStatus, cycleButtons, timerButtons, cycleIndicator) => {
+const pauseTimer = (intervalId) => {
+    clearInterval(intervalId);
     timer.getCurrentDelayTime((delayTime) => {
         timer.stopTimer();
 
         webStorage.setDelayTime(delayTime);
 
-        clearInterval(intervalId);
-
         webStorage.setTimerStatus("Pausado");
-        changeStatus(timerStatus, cycleButtons, timerButtons, cycleIndicator);
-    })
+        updatePopupInterface();
+    });
 }
 
-const continueTimer = (timerStatus, cycleButtons, timerButtons, timerDisplay, cycleIndicator) => {
+const continueTimer = (timerDisplay) => {
     const delayTimeInMills = parseInt(webStorage.getDelayTime());
-    const delayTimeInMinutes = secondsToMinutes(millisToSeconds(delayTimeInMills));
-
+    const delayTimeInMinutes = timeConverter.secondsToMinutes(timeConverter.millisToSeconds(delayTimeInMills));
+    
     timer.initializeTimer((delayTimeInMinutes >= 1) ? delayTimeInMinutes : 1);
     
     webStorage.setTimerStatus("Iniciado");   
-    changeStatus(timerStatus, cycleButtons, timerButtons, cycleIndicator);
-
-    const intervelId = setInterval(updateTimerDisplay, 1000, timerDisplay);
+    updatePopupInterface();
+    
+    const intervelId = updateTimerDisplay(timerDisplay);
 
     return intervelId;
 }
 
-const cancelTimer = (intervalId, timerStatus, cycleButtons, timerButtons, cycleIndicator) => {
+const cancelTimer = (intervalId) => {
     timer.stopTimer();
     
     clearInterval(intervalId);
 
     webStorage.setTimerStatus("Cancelado");
-    changeStatus(timerStatus, cycleButtons, timerButtons, cycleIndicator);
+    updatePopupInterface();
 }
 
-const nextTimer = (db, timerName, timerDisplay, timerStatus, cycleButtons, timerButtons, cycleIndicator) => {
+const nextTimer = (db, timerName, timerDisplay) => {
     const isNextTimerDefined = timer.setNextTimer();
     if(isNextTimerDefined){
 		webStorage.setTimerStatus("Não Iniciado");
-        initializePopUpInterface(db, timerName, timerDisplay, timerStatus, cycleButtons, timerButtons, cycleIndicator);
+        initializePopUpInterface(db, timerName, timerDisplay);
     }else{
         window.location.href = "finishedCycles.html";
     }
 }
 
-const requestAlarmStatus = async (db, timerName, timerDisplay, timerStatus, cycleButtons, timerButtons, cycleIndicator) => {
+const requestAlarmStatus = async (db, timerName, timerDisplay) => {
     const response = await chrome.runtime.sendMessage({message: "alarmStatus"});
     if(response.alarmStatus === "PLAYED"){
-        nextTimer(db, timerName, timerDisplay, timerStatus, cycleButtons, timerButtons, cycleIndicator);
+        nextTimer(db, timerName, timerDisplay);
         
         cycleIndicator.cycleNumber.innerHTML = webStorage.getCurrentCycle();
         cycle.resetHTMLCycleTimer(cycleIndicator.cycleTimers);
         cycle.fillHTMLCycleTimer(cycleIndicator.cycleTimers, webStorage.getCurrentTimerIndex());
     }
     else{
-        initializePopUpInterface(db, timerName, timerDisplay, timerStatus, cycleButtons, timerButtons, cycleIndicator);
+        initializePopUpInterface(db, timerName, timerDisplay);
     }
 }
 
@@ -191,7 +172,7 @@ window.onload = () => {
             timerDisplay, 
             cycleButtons, 
             timerButtons, 
-            cycleIndicator } = initializeElements();
+            cycleIndicator } = getHTMLElements();
 
     let intervalId = 0;
 
@@ -202,7 +183,7 @@ window.onload = () => {
         window.location.href = "finishedCycles.html";
     }else{
         indexedDBController.openDatabase((db) => {
-            requestAlarmStatus(db, timerName, timerDisplay, timerStatus, cycleButtons, timerButtons, cycleIndicator);
+            requestAlarmStatus(db, timerName, timerDisplay);
     
             indexedDBController.getAllRegistries(db, (timers) => {
                 const frequencies = {
@@ -222,13 +203,13 @@ window.onload = () => {
             cycleButtons.btnStart.addEventListener(
                 'click', 
                 () => {
-                    intervalId = startTimer(db, timerStatus, timerDisplay, cycleButtons, timerButtons, cycleIndicator);
+                    intervalId = startTimer(db, timerDisplay);
                 });
     
             cycleButtons.btnJump.addEventListener(
                 'click',
                 () => {
-                    nextTimer(db, timerName, timerDisplay, timerStatus, cycleButtons, timerButtons, cycleIndicator);
+                    nextTimer(db, timerName, timerDisplay);
                     cycleIndicator.cycleNumber.innerHTML = webStorage.getCurrentCycle();
     
                     cycle.resetHTMLCycleTimer(cycleIndicator.cycleTimers);
@@ -239,39 +220,44 @@ window.onload = () => {
             timerButtons.btnPause.addEventListener(
                 'click',
                 () => {
-                    pauseTimer(intervalId, timerStatus, cycleButtons, timerButtons, cycleIndicator);
+                    console.log(`[intervalId.pauseTimer] - ${intervalId}`);
+                    pauseTimer(intervalId);
                 }
             );
     
             timerButtons.btnPlay.addEventListener(
                 'click',
                 () => {
-                    intervalId = continueTimer(timerStatus, cycleButtons, timerButtons, timerDisplay, cycleIndicator);
+                    intervalId = continueTimer(timerDisplay);
+                    console.log(`[intervalId.continueTimer] - ${intervalId}`);
                 }
             );
     
             timerButtons.btnCancel.addEventListener(
                 'click',
                 () => {
-                    cancelTimer(intervalId, timerStatus, cycleButtons, timerButtons, cycleIndicator);
+                    cancelTimer(intervalId);
                     initializeTimerDisplay(db, timerDisplay);
                 }
             );
 
-            cycleIndicator.btnResetCycles.addEventListener('click', () => {
-                webStorage.resetCurrentSessionData();
-				webStorage.setTimerStatus("Não Iniciado");
-                initializePopUpInterface(db, timerName, timerDisplay, timerStatus, cycleButtons, timerButtons, cycleIndicator);
-                cycleIndicator.cycleNumber.innerHTML = webStorage.getCurrentCycle();
-                cycle.resetHTMLCycleTimer(cycleIndicator.cycleTimers);
-                cycle.fillHTMLCycleTimer(cycleIndicator.cycleTimers, webStorage.getCurrentTimerIndex());
-            });
+            cycleIndicator.btnResetCycles.addEventListener(
+                'click', 
+                () => {
+                    webStorage.resetCurrentSessionData();
+                    webStorage.setTimerStatus("Não Iniciado");
+                    initializePopUpInterface(db, timerName, timerDisplay);
+                    cycleIndicator.cycleNumber.innerHTML = webStorage.getCurrentCycle();
+                    cycle.resetHTMLCycleTimer(cycleIndicator.cycleTimers);
+                    cycle.fillHTMLCycleTimer(cycleIndicator.cycleTimers, webStorage.getCurrentTimerIndex());
+                }
+            );
 
             chrome.runtime.onMessage.addListener(
                 (request, sender, sendResponse) => {
                     if(request.onAlarm){
                         clearInterval(intervalId);
-                        nextTimer(db, timerName, timerDisplay, timerStatus, cycleButtons, timerButtons, cycleIndicator);
+                        nextTimer(db, timerName, timerDisplay);
                         
                         cycleIndicator.cycleNumber.innerHTML = webStorage.getCurrentCycle();
                         cycle.resetHTMLCycleTimer(cycleIndicator.cycleTimers);

@@ -43,7 +43,7 @@ const getEndTime = (onSuccess) => {
 const getCurrentDelayTime = (onSuccess) => {
     getEndTime((endTime) => {
         const currentTime = Date.now();
-        const delayTime = endTime - currentTime
+        const delayTime = endTime - currentTime;
 
         onSuccess(delayTime);
     });
