@@ -1,32 +1,20 @@
 const showTimermNotification = () => {
+    var hours = new Date().getHours();
+    var minutes = new Date().getMinutes();
+    const hoursMinuteAndSeconds = hours + ":" + (minutes < 10 ? '0' : '') + minutes;
+    
     chrome.notifications.create({
         contextMessage: "Easy Pomodoro",
         iconUrl: "../assets/tomato.png",
-        message: "Ding Ding Ding!",
-        title: "Alarme Tocando",
+        message: hoursMinuteAndSeconds,
+        title: "Timer Encerrado",
         type: "basic",
-        buttons: [{title: "Desligar"}, {title: "Iniciar Próximo Timer"}],
+        buttons: [{title: "Fechar"}],
         requireInteraction: true
-    })
+    });
 }
 
-let alarmStatus = "NOT PLAYED";
-
 chrome.alarms.onAlarm.addListener(async () => {
-    alarmStatus = "PLAYED";
+    await chrome.storage.local.set({alarmStatus: "Tocou"});
     showTimermNotification();
-    try{
-        await chrome.runtime.sendMessage({onAlarm: true});
-        alarmStatus = "NOT PLAYED";
-    }catch(error){
-        console.error(`${error} - Popup was close when trying to make contact`);
-    }      
 });
-
-chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
-        if(request.message === "alarmStatus"){
-            sendResponse({alarmStatus: alarmStatus});
-            alarmStatus = "NOT PLAYED";
-        }
-    }
-)

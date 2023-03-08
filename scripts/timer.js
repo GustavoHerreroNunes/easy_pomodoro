@@ -17,14 +17,15 @@ const setNextTimer = () => {
     const cycleStructure = webStorage.getCycleStructure();
 
     if(currentTimerIndex + 1 >= cycleStructure.length){
-        webStorage.setCurrentTimerIndex(0);
-        webStorage.setCurrentTimerName("Pomodoro");
         const currentCycle = parseInt(webStorage.getCurrentCycle());
+        webStorage.setCurrentCycle(currentCycle + 1);
         const numberOfCycles = parseInt(webStorage.getNumberOfCycles());
-        if(currentCycle >= numberOfCycles)
+        if(currentCycle + 1 > numberOfCycles)
             return false;
-        else
-            webStorage.setCurrentCycle(currentCycle + 1);
+        else{
+            webStorage.setCurrentTimerIndex(0);
+            webStorage.setCurrentTimerName("Pomodoro");
+        }
     }else{
         webStorage.setCurrentTimerIndex(currentTimerIndex + 1);
         webStorage.setCurrentTimerName(cycleStructure[currentTimerIndex+1]);

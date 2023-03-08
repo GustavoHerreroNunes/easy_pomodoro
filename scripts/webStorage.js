@@ -15,9 +15,17 @@ const defineStorage = () => {
 
     if(!localStorage.currentTimerName) localStorage.currentTimerName = "Pomodoro";
 
-    if(!localStorage.timerStatus) localStorage.timerStatus = "Não iniciado";
+    if(!localStorage.timerStatus) localStorage.timerStatus = "Não Iniciado";
+
+    if(!localStorage.alarmStatus) localStorage.alarmStatus = "Não Tocou";
 
     if(!localStorage.delayTime) localStorage.delayTime = 0;
+
+    chrome.storage.local.get(["alarmStatus"]).then( (result) =>{
+        if(!result.alarmStatus){
+            chrome.storage.local.set({alarmStatus: "Não Tocou"});
+        }
+    });
 }
 
 const getNumberOfCycles = () => {
@@ -69,6 +77,16 @@ const setTimerStatus = (timerStatus) => {
     localStorage.timerStatus = timerStatus;
 }
 
+const getAlarmStatus = (onSuccess) => {
+    chrome.storage.local.get(['alarmStatus']).then(({alarmStatus}) => {
+        onSuccess(alarmStatus);
+    });
+}
+
+const setAlarmStatus = (alarmStatus, onSuccess) => {
+    chrome.storage.local.set({alarmStatus: alarmStatus}).then(onSuccess);
+}
+
 const getDelayTime = () => {
     return localStorage.delayTime;
 }
@@ -99,6 +117,8 @@ const webStorage = { defineStorage,
                     setCurrentCycle, 
                     getTimerStatus, 
                     setTimerStatus, 
+                    getAlarmStatus, 
+                    setAlarmStatus,
                     getDelayTime,
                     setDelayTime,
                     resetCurrentSessionData };

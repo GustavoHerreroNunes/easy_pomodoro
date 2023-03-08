@@ -45,19 +45,30 @@ const updatePopupInterface = () => {
         case "Iniciado":
             cycleButtons.container.classList.add("hide");
             timerButtons.container.classList.remove("hide");
+            cycleIndicator.container.classList.add("hide");
             timerButtons.btnPlay.classList.add("hide");
             timerButtons.btnPause.classList.remove("hide");
-            cycleIndicator.container.classList.add("hide");
             break;
         case "Pausado":
+            cycleButtons.container.classList.add("hide");
+            timerButtons.container.classList.remove("hide");
+            cycleIndicator.container.classList.add("hide");
             timerButtons.btnPlay.classList.remove("hide");
             timerButtons.btnPause.classList.add("hide");
+
+            const delayTimeInMills = parseInt(webStorage.getDelayTime());
+            const delayTimeMinutesAndSeconds = timeConverter.millisToMinutesAndSeconds(delayTimeInMills);
+            timerDisplay.innerHTML = delayTimeMinutesAndSeconds;
             break;
         case "Cancelado":
         case "Não Iniciado":
             cycleButtons.container.classList.remove("hide");
             timerButtons.container.classList.add("hide");
             cycleIndicator.container.classList.remove("hide");
+
+            cycleIndicator.cycleNumber.innerHTML = webStorage.getCurrentCycle();
+            cycle.resetHTMLCycleTimer(cycleIndicator.cycleTimers);
+            cycle.fillHTMLCycleTimer(cycleIndicator.cycleTimers, webStorage.getCurrentTimerIndex());
             break;
         default:
             console.log(`Status não reconhecido - ${currentStatus}`);
@@ -65,20 +76,14 @@ const updatePopupInterface = () => {
     }
 }
 
-//TIMER NAME GOTTEN
-const initializeTimerDisplay = (db, timerDisplay) => {
+const initializePopUpInterface = (db, timerName, timerDisplay) => {
     const currentTimer = webStorage.getCurrentTimerName();
     indexedDBController.getRegistry(db, currentTimer, (registry) => {
         const time = registry.time;
         timerDisplay.innerHTML = time;
+        timerName.innerHTML = currentTimer;
+        updatePopupInterface();
     });
-}
-
-const initializePopUpInterface = (db, timerName, timerDisplay) => {
-    initializeTimerDisplay(db, timerDisplay);
-    updatePopupInterface();
-    const timerNewName =  webStorage.getCurrentTimerName();
-    timerName.innerHTML = timerNewName;
 }
 
 const updateTimerDisplay = (timerDisplay) => {
@@ -86,8 +91,8 @@ const updateTimerDisplay = (timerDisplay) => {
         timer.getCurrentDelayTime((delayTime) => {
             const newTime = timeConverter.millisToMinutesAndSeconds(delayTime);
             timerDisplay.innerHTML = newTime;
-        }, 1000);
-    });
+        });
+    }, 100);
 }
 
 const startTimer = (db, timerDisplay) => {
@@ -97,7 +102,7 @@ const startTimer = (db, timerDisplay) => {
         const delayInMinutes = timerRegistry.time;
 
         timer.initializeTimer(timeConverter.minutesAndSecondsToMinutes(delayInMinutes));
-    
+
         webStorage.setTimerStatus("Iniciado");   
         updatePopupInterface();
     });
@@ -152,18 +157,14 @@ const nextTimer = (db, timerName, timerDisplay) => {
     }
 }
 
-const requestAlarmStatus = async (db, timerName, timerDisplay) => {
-    const response = await chrome.runtime.sendMessage({message: "alarmStatus"});
-    if(response.alarmStatus === "PLAYED"){
-        nextTimer(db, timerName, timerDisplay);
-        
-        cycleIndicator.cycleNumber.innerHTML = webStorage.getCurrentCycle();
-        cycle.resetHTMLCycleTimer(cycleIndicator.cycleTimers);
-        cycle.fillHTMLCycleTimer(cycleIndicator.cycleTimers, webStorage.getCurrentTimerIndex());
-    }
-    else{
-        initializePopUpInterface(db, timerName, timerDisplay);
-    }
+const verifyAlarmStatus = (onPlayed, onNotPlayed) => {
+    webStorage.getAlarmStatus((alarmStatus) => {
+        if(alarmStatus === "Tocou"){
+            onPlayed();
+        }else{
+            onNotPlayed();
+        }
+    });
 }
 
 window.onload = () => {
@@ -179,11 +180,10 @@ window.onload = () => {
     webStorage.defineStorage();
     const currentCycle = webStorage.getCurrentCycle();
     const numberOfCycles = webStorage.getNumberOfCycles();
-    if(currentCycle === numberOfCycles){
+    if(currentCycle > numberOfCycles){
         window.location.href = "finishedCycles.html";
     }else{
         indexedDBController.openDatabase((db) => {
-            requestAlarmStatus(db, timerName, timerDisplay);
     
             indexedDBController.getAllRegistries(db, (timers) => {
                 const frequencies = {
@@ -210,10 +210,6 @@ window.onload = () => {
                 'click',
                 () => {
                     nextTimer(db, timerName, timerDisplay);
-                    cycleIndicator.cycleNumber.innerHTML = webStorage.getCurrentCycle();
-    
-                    cycle.resetHTMLCycleTimer(cycleIndicator.cycleTimers);
-                    cycle.fillHTMLCycleTimer(cycleIndicator.cycleTimers, webStorage.getCurrentTimerIndex());
                 }
             );
             
@@ -237,7 +233,7 @@ window.onload = () => {
                 'click',
                 () => {
                     cancelTimer(intervalId);
-                    initializeTimerDisplay(db, timerDisplay);
+                    initializePopUpInterface(db, timerName, timerDisplay);
                 }
             );
 
@@ -270,6 +266,27 @@ window.onload = () => {
             if(webStorage.getTimerStatus() === "Iniciado"){
                 intervalId = updateTimerDisplay(timerDisplay);
             }
+
+            verifyAlarmStatus(() => {
+                webStorage.setAlarmStatus("Não Tocou", () => {
+                    clearInterval(intervalId);
+                    nextTimer(db, timerName, timerDisplay);
+                });
+            }, () => {
+                initializePopUpInterface(db, timerName, timerDisplay);
+            });
+            
+            chrome.storage.onChanged.addListener( async (changes, area) => {
+                if(area === "local"){
+                    verifyAlarmStatus(() => {
+                        webStorage.setAlarmStatus("Não Tocou");
+                        clearInterval(intervalId);
+                        nextTimer(db, timerName, timerDisplay);
+                    }, () => {
+                        initializePopUpInterface(db, timerName, timerDisplay);
+                    });
+                }
+            })
         });
     }        
 
