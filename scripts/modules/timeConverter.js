@@ -22,6 +22,6 @@ const minutesAndSecondsToMinutes = (minutesAndSeconds) => {
     return numberMinutes;
 }
 
-const timeConversor = { secondsToMinutes, millisToSeconds, millisToMinutesAndSeconds, minutesAndSecondsToMinutes }
+const timeConverter = { secondsToMinutes, millisToSeconds, millisToMinutesAndSeconds, minutesAndSecondsToMinutes }
 
-export default timeConversor;
+export default timeConverter;

@@ -45,7 +45,7 @@ const fillHTMLCycleTimer = (cycleTimersContainer, currentTimerIndex) => {
     }
 }
 
-const resetHTMLCycleTimer = (cycleTimersContainer, currentTimerIndex) => {
+const resetHTMLCycleTimer = (cycleTimersContainer) => {
     const cycleTimersElements = cycleTimersContainer.children;
     const numberOfTimers = cycleTimersElements.length;
 
