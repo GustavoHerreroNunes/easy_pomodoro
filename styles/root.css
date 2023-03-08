@@ -13,3 +13,8 @@
     font-family: 'Mukta', sans-serif;
     font-size: 1rem;
 }
+
+
+.hide{
+    display: none !important;
+}

@@ -15,10 +15,6 @@ a{
     text-decoration: none;
 }
 
-.hide{
-    display: none !important;
-}
-
 #popupContent{
     display: flex;
     flex-direction: column;
