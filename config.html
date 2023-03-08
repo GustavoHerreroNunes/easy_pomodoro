@@ -15,48 +15,58 @@
             <h4>Easy Pomodoro</h4>
         </div>
         <h1>Configurações</h1>
-        <div class="container container-flex" id="timers">
-            <h2>Timers</h2>
-            <div class="container-flex">
-                <label for="txbPomodoroTime">
-                    Pomodoro 
-                    <input type="text" name="txbPomodoroTime" id="txbPomodoroTime" value="00:00">
-                </label>
-                <label for="txbShortBreakTime">
-                    Pausa Curta 
-                    <input type="text" name="txbShortBreakTime" id="txbShortBreakTime" value="00:00">
-                </label>
-                <label for="txbLongBreakTime">
-                    Pausa Longa 
-                    <input type="text" name="txbLongBreakTime" id="txbLongBreakTime" value="00:00">
-                </label>
+        <form name="frmConfig">
+            <div class="container container-flex" id="timers">
+                <h2>Timers</h2>
+                <p class="errorMessage"></p>
+                <div class="container-flex">
+                    <label for="txbPomodoroTime">
+                        Pomodoro 
+                        <input type="number" name="txbPomodoroMinutes" id="txbPomodoroMinutes" value="25" min="1" max="59">
+                        :
+                        <input type="number" name="txbPomodoroSeconds" id="txbPomodoroSeconds" value="00" min="00" max="59">
+                    </label>
+                    <label for="txbShortBreakTime">
+                        Pausa Curta 
+                        <input type="number" name="txbShortBreakMinutes" id="txbShortBreakMinutes" value="5" min="1" max="59">
+                        :
+                        <input type="number" name="txbShortBreakSeconds" id="txbShortBreakSeconds" value="00" min="00" max="59">
+                    </label>
+                    <label for="txbLongBreakTime">
+                        Pausa Longa 
+                        <input type="number" name="txbLongBreakMinutes" id="txbLongBreakMinutes" value="15" min="1" max="59">
+                        :
+                        <input type="number" name="txbLongBreakSeconds" id="txbLongBreakSeconds" value="00" min="00" max="59">
+                    </label>
+                </div>
             </div>
-        </div>
-        <div class="container container-flex" id="cycles">
-            <h2>Ciclos</h2>
-            <div class="container-flex">
-                <label for="txbNumberOfCycles">
-                    Número de Ciclos 
-                    <input type="number" name="txbNumberOfCycles" id="txbNumberOfCycles" value=0>
-                </label>
-                <label for="txbShortBreakFrequency">
-                    Pausa curta a cada 
-                    <input type="number" name="txbShortBreakFrequency" id="txbShortBreakFrequency" value=0>
-                     pomodoro(s)
-                </label>
-                <label for="txbLongBreakFrequency">
-                    Pausa Longa a cada 
-                    <input type="number" name="txbLongBreakFrequency" id="txbLongBreakFrequency" value=0>
-                     pomodoro(s)
-                </label>
+            <div class="container container-flex" id="cycles">
+                <h2>Ciclos</h2>
+                <p class="errorMessage"></p>
+                <div class="container-flex">
+                    <label for="txbNumberOfCycles">
+                        Número de Ciclos 
+                        <input type="number" name="txbNumberOfCycles" id="txbNumberOfCycles" value=1 min="1" required>
+                    </label>
+                    <label for="txbShortBreakFrequency">
+                        Pausa curta a cada 
+                        <input type="number" name="txbShortBreakFrequency" id="txbShortBreakFrequency" value=1 min="1" required>
+                         pomodoro(s)
+                    </label>
+                    <label for="txbLongBreakFrequency">
+                        Pausa Longa a cada 
+                        <input type="number" name="txbLongBreakFrequency" id="txbLongBreakFrequency" value=2 min="2" required>
+                         pomodoro(s)
+                    </label>
+                </div>
             </div>
-        </div>
-        <div class="container buttonGroup" id="cycleButtons">
-            <button class="btnGreen" id="btnSave">Salvar</button>
-            <a href="./index.html">
-                <button class="btnRed" id="btnCancel">Cancelar</button>
-            </a>
-        </div>
+            <div class="container buttonGroup" id="cycleButtons">
+                <button class="btnGreen" id="btnSave" type="button">Salvar</button>
+                <a href="./index.html">
+                    <button class="btnRed" id="btnCancel" type="button">Cancelar</button>
+                </a>
+            </div>
+        </form>
     </div>
 
     <script type="module" src="scripts/configPage.js"></script>
