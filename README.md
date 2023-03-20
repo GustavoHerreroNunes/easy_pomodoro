@@ -116,17 +116,17 @@ Se você tem alguma ideia, sugestão, ou viu algum erro, você pode me contar [a
 [manifest-badget]:https://img.shields.io/static/v1?label=Manifest&message=V3&color=blue&style=for-the-badge
 [manifest-link]: https://developer.chrome.com/docs/extensions/mv3/intro/
 
-[home-page-timer-nao-iniciado-img]: https://github.com/GustavoHerreroNunes/easy-pomodoro/blob/main/assets/README/home_page-timer_nao_iniciado.jpg
+[home-page-timer-nao-iniciado-img]: https://github.com/GustavoHerreroNunes/easy_pomodoro/blob/main/assets/README/home_page-timer_nao_iniciado.jpg
 
-[home-page-timer-iniciado-gif]: https://github.com/GustavoHerreroNunes/easy-pomodoro/blob/main/assets/README/home_page-timer_iniciado.gif
+[home-page-timer-iniciado-gif]: https://github.com/GustavoHerreroNunes/easy_pomodoro/blob/main/assets/README/home_page-timer_iniciado.gif
 
-[settings-page-img]: https://github.com/GustavoHerreroNunes/easy-pomodoro/blob/main/assets/README/settings_page.jpg
+[settings-page-img]: https://github.com/GustavoHerreroNunes/easy_pomodoro/blob/main/assets/README/settings_page.jpg
 
-[gerenciar-de-extensoes-img]: https://github.com/GustavoHerreroNunes/easy-pomodoro/blob/main/assets/README/gerenciar_extensoes.jpg
+[gerenciar-de-extensoes-img]: https://github.com/GustavoHerreroNunes/easy_pomodoro/blob/main/assets/README/gerenciar_extensoes.jpg
 
-[modo-desenvolvedor-img]: https://github.com/GustavoHerreroNunes/easy-pomodoro/blob/main/assets/README/modo_desenvolvedor.jpg
+[modo-desenvolvedor-img]: https://github.com/GustavoHerreroNunes/easy_pomodoro/blob/main/assets/README/modo_desenvolvedor.jpg
 
-[carregar-sem-compactacao-img]: https://github.com/GustavoHerreroNunes/easy-pomodoro/blob/main/assets/README/carregar_sem_compactacao.jpg
+[carregar-sem-compactacao-img]: https://github.com/GustavoHerreroNunes/easy_pomodoro/blob/main/assets/README/carregar_sem_compactacao.jpg
 
 [indexed-db-mdn]: https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API
 
